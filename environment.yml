@@ -1,0 +1,10 @@
+name: strata-env
+channels:
+  - conda-forge
+dependencies:
+  - python = 3.11
+  - pyspark
+  - numpy
+  - pandas
+  - matplotlib
+  - yfinance

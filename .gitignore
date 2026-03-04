@@ -1,0 +1,35 @@
+# data
+data/
+
+# python
+__pycache__/
+*.py[cod]
+*.so
+
+# virtual environments
+.env
+.venv
+env/
+venv/
+conda-meta/
+
+# logs
+*.log
+
+# jupyter
+.ipynb_checkpoints/
+
+# ide
+.vscode/
+.idea/
+
+# secrets
+.env.*
+secrets.yml
+credentials.json
+*.pem
+*.key
+
+# os
+.DS_Store
+Thumbs.db
