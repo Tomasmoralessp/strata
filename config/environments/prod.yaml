@@ -1,0 +1,21 @@
+pipeline:
+
+  engine: spark
+
+compute:
+
+  spark:
+
+    master: yarn
+
+
+datasets:
+
+  bronze_prices:
+    uri: s3://strata-data/bronze/etf_prices
+
+  silver_returns:
+    uri: s3://strata-data/silver/etf_returns
+
+  gold_rolling_metrics:
+    uri: s3://strata-data/gold/rolling_metrics
