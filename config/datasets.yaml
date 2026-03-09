@@ -1,0 +1,60 @@
+datasets:
+
+  bronze_prices:
+
+    description: Raw ETF price data downloaded from the provider
+
+    uri: data/bronze/etf_prices
+    version: v1
+    format: parquet
+
+    partition_by:
+      - date
+
+
+  silver_returns:
+
+    description: Daily returns computed from ETF prices
+
+    uri: data/silver/etf_returns
+    version: v1
+    format: parquet
+
+    partition_by:
+      - ticker
+
+
+  gold_rolling_metrics:
+
+    description: Rolling risk metrics for ETFs (volatility, sharpe, etc.)
+
+    uri: data/gold/rolling_metrics
+    version: v1
+    format: parquet
+
+    partition_by:
+      - ticker
+
+
+  gold_correlation_matrix:
+
+    description: Time-varying correlation matrices between ETFs
+
+    uri: data/gold/correlation_matrix
+    version: v1
+    format: parquet
+
+    partition_by:
+      - date
+
+
+  gold_drawdowns:
+
+    description: Drawdown time series for ETFs
+
+    uri: data/gold/drawdowns
+    version: v1
+    format: parquet
+
+    partition_by:
+      - ticker
