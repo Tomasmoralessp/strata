@@ -1,0 +1,8 @@
+environment: dev
+
+pipeline:
+  engine: spark
+  write_mode: overwrite
+
+universe:
+  source: config/universe/etf_universe.csv
