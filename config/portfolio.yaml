@@ -1,0 +1,44 @@
+portfolios:
+
+  classic_60_40:
+
+    description: Traditional equity bond allocation
+
+    weights:
+
+      SPY: 0.6
+      AGG: 0.4
+
+
+  all_weather:
+
+    description: Ray Dalio inspired diversified portfolio
+
+    weights:
+
+      SPY: 0.3
+      TLT: 0.4
+      GLD: 0.15
+      DBC: 0.15
+
+
+  equity_focus:
+
+    description: Equity heavy portfolio
+
+    weights:
+
+      SPY: 0.4
+      QQQ: 0.3
+      IWM: 0.3
+
+
+  defensive:
+
+    description: Defensive diversified portfolio
+
+    weights:
+
+      TLT: 0.4
+      AGG: 0.4
+      GLD: 0.2
