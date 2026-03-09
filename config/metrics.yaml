@@ -1,0 +1,24 @@
+metrics:
+
+  - name: rolling_volatility
+    window: 30
+
+  - name: rolling_volatility
+    window: 90
+
+  - name: rolling_sharpe
+    window: 30
+
+  - name: rolling_sharpe
+    window: 90
+
+  - name: max_drawdown
+
+  - name: rolling_drawdown
+
+  - name: rolling_beta
+    benchmark: SPY
+    window: 90
+
+  - name: rolling_correlation
+    window: 90
