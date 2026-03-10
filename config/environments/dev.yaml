@@ -1,1 +1,14 @@
+pipeline:
+
+  engine: spark
+
+compute:
+
+  spark:
+    master: local[*]
+
+storage:
+
+  bronze: data/bronze
+  silver: data/silver
   gold: data/gold

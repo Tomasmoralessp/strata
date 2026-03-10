@@ -5,11 +5,9 @@ pipeline:
 compute:
 
   spark:
-
     master: yarn
 
 storage:
-  # Tenmporary placeholder the bucket is not created yet
-  bronze: s3://strata-data/bronze
-  silver: s3://strata-data/silver
-  gold: s3://strata-data/gold
+  bronze: s3a://strata-data/bronze
+  silver: s3a://strata-data/silver
+  gold: s3a://strata-data/gold
