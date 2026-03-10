@@ -5,7 +5,9 @@ from typing import List, Dict, Optional
 class DatasetConfig(BaseModel):
     model_config = ConfigDict(frozen=True)
 
-    uri: str
+    description: Optional[str] = None
+    layer: str
+    path: str
     version: str
     format: str
     partition_by: Optional[List[str]] = None
