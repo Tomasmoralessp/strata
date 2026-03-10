@@ -5,4 +5,4 @@ pipeline:
   write_mode: overwrite
 
 universe:
-  source: config/universe/etf_universe.csv
+  etfs: reference/universe/etf_universe.csv
