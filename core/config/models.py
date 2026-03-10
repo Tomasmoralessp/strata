@@ -36,7 +36,7 @@ class PipelineConfig(BaseModel):
 class ConfigModel(BaseModel):
     model_config = ConfigDict(frozen=True)
 
-    environment = str
+    environment: str
 
     pipeline: PipelineConfig
 
