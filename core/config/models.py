@@ -40,11 +40,11 @@ class ConfigModel(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     environment: str
-
     pipeline: PipelineConfig
 
-    datasets: Dict[str, DatasetConfig]
+    storage: Dict[str, str]
 
+    datasets: Dict[str, DatasetConfig]
     metrics: List[MetricConfig]
 
     portfolios: Dict[str, PortfolioConfig] = {}
