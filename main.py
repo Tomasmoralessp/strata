@@ -3,7 +3,13 @@
 from core.config import layered_config
 from core.config.loader import YamlLoader
 from core.config.layered_config import LayeredConfig
-from core.config.models import ConfigModel
+from core.config.models import (
+    ConfigModel,
+    DatasetConfig,
+    PipelineConfig,
+    MetricConfig,
+    PortfolioConfig,
+)
 
 from infrastructure.storage.dataset_registry import DatasetRegistry
 from pathlib import Path
@@ -37,7 +43,24 @@ layers = [base_config, selected_env_config, datasets_config]
 merged_config = LayeredConfig(layers).build()
 
 # 6. Create the ConfigModel
-ConfigModel()
+config = ConfigModel(environment=selected_env, 
+                     pipeline=PipelineConfig(engine="",
+                                    write_mode=""),
+                     datasets=
+                     metrics=
+                     portfolios=
+                     )
+
+
+    # environment: str
+    #
+    # pipeline: PipelineConfig
+    #
+    # datasets: Dict[str, DatasetConfig]
+    #
+    # metrics: List[MetricConfig]
+    #
+    # portfolios: Dict[str, PortfolioConfig]
 
 dataset_registry = DatasetRegistry(merged_config["datasets"])
 

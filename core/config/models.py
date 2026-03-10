@@ -46,4 +46,4 @@ class ConfigModel(BaseModel):
 
     metrics: List[MetricConfig]
 
-    portfolios: Dict[str, PortfolioConfig]
+    portfolios: Dict[str, PortfolioConfig] = {}
