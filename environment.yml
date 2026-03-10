@@ -8,3 +8,8 @@ dependencies:
   - pandas
   - matplotlib
   - yfinance
+  - pyyaml
+  - pydantic
+  - typer
+  - streamlit
+  - loguru
