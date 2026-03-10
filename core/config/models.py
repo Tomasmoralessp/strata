@@ -24,6 +24,7 @@ class MetricConfig(BaseModel):
 class PortfolioConfig(BaseModel):
     model_config = ConfigDict(frozen=True)
 
+    name: str
     description: Optional[str] = None
     weights: Dict[str, float]
 
