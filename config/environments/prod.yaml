@@ -8,14 +8,8 @@ compute:
 
     master: yarn
 
-
-datasets:
-
-  bronze_prices:
-    uri: s3://strata-data/bronze/etf_prices
-
-  silver_returns:
-    uri: s3://strata-data/silver/etf_returns
-
-  gold_rolling_metrics:
-    uri: s3://strata-data/gold/rolling_metrics
+storage:
+  # Tenmporary placeholder the bucket is not created yet
+  bronze: s3://strata-data/bronze
+  silver: s3://strata-data/silver
+  gold: s3://strata-data/gold

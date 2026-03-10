@@ -4,7 +4,8 @@ datasets:
 
     description: Raw ETF price data downloaded from the provider
 
-    uri: data/bronze/etf_prices
+    layer: bronze
+    path: etf_prices
     version: v1
     format: parquet
 
@@ -16,7 +17,8 @@ datasets:
 
     description: Daily returns computed from ETF prices
 
-    uri: data/silver/etf_returns
+    layer: silver
+    path: etf_returns
     version: v1
     format: parquet
 
@@ -28,7 +30,8 @@ datasets:
 
     description: Rolling risk metrics for ETFs (volatility, sharpe, etc.)
 
-    uri: data/gold/rolling_metrics
+    layer: gold
+    path: rolling_metrics
     version: v1
     format: parquet
 
@@ -40,7 +43,8 @@ datasets:
 
     description: Time-varying correlation matrices between ETFs
 
-    uri: data/gold/correlation_matrix
+    layer: gold
+    path: correlation_matrix
     version: v1
     format: parquet
 
@@ -52,7 +56,8 @@ datasets:
 
     description: Drawdown time series for ETFs
 
-    uri: data/gold/drawdowns
+    layer: gold
+    path: drawdowns
     version: v1
     format: parquet
 
