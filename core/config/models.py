@@ -13,6 +13,12 @@ class DatasetConfig(BaseModel):
     partition_by: Optional[List[str]] = None
 
 
+class UniverseConfig(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    etfs: str
+
+
 class MetricConfig(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -48,3 +54,5 @@ class ConfigModel(BaseModel):
     metrics: List[MetricConfig]
 
     portfolios: Dict[str, PortfolioConfig] = {}
+
+    universe: UniverseConfig
