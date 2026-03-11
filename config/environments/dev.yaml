@@ -1,11 +1,5 @@
-pipeline:
-
-  engine: spark
-
 compute:
-
-  spark:
-    master: local[*]
+  engine: spark
 
 storage:
 

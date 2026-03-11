@@ -1,7 +1,6 @@
 environment: prod
 
 pipeline:
-  engine: spark
   write_mode: overwrite
 
 universe:

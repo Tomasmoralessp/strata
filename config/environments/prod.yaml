@@ -1,11 +1,5 @@
-pipeline:
-
-  engine: spark
-
 compute:
-
-  spark:
-    master: yarn
+  engine: spark
 
 storage:
   bronze: s3a://strata-data/bronze

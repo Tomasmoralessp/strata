@@ -35,10 +35,13 @@ class PortfolioConfig(BaseModel):
     weights: Dict[str, float]
 
 
+class ComputeConfig(BaseModel):
+    engine: str
+
+
 class PipelineConfig(BaseModel):
     model_config = ConfigDict(frozen=True)
 
-    engine: str
     write_mode: str
 
 
@@ -46,13 +49,12 @@ class ConfigModel(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     environment: str
+
+    compute: ComputeConfig
     pipeline: PipelineConfig
-
     storage: Dict[str, str]
-
     datasets: Dict[str, DatasetConfig]
     metrics: List[MetricConfig]
-
     portfolios: Dict[str, PortfolioConfig] = {}
 
     universe: UniverseConfig
