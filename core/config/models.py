@@ -35,8 +35,14 @@ class PortfolioConfig(BaseModel):
     weights: Dict[str, float]
 
 
+class SparkConfig(BaseModel):
+    model_config = ConfigDict(frozen=True)
+    master: str
+
+
 class ComputeConfig(BaseModel):
     engine: str
+    spark: Optional[SparkConfig] = None
 
 
 class PipelineConfig(BaseModel):
@@ -54,6 +60,7 @@ class ConfigModel(BaseModel):
     pipeline: PipelineConfig
     storage: Dict[str, str]
     datasets: Dict[str, DatasetConfig]
+
     metrics: List[MetricConfig]
     portfolios: Dict[str, PortfolioConfig] = {}
 
