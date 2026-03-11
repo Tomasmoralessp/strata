@@ -1,5 +1,8 @@
 compute:
   engine: spark
+  spark: 
+    master: local[*]
+
 
 storage:
 

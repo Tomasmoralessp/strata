@@ -1,7 +1,12 @@
 compute:
   engine: spark
+  spark: 
+    master: local[*]
 
 storage:
   bronze: s3a://strata-data/bronze
   silver: s3a://strata-data/silver
   gold: s3a://strata-data/gold
+
+
+
