@@ -38,6 +38,7 @@ class PortfolioConfig(BaseModel):
 class SparkConfig(BaseModel):
     model_config = ConfigDict(frozen=True)
     master: str
+    app_name: Optional[str] = "strata"
 
 
 class ComputeConfig(BaseModel):
