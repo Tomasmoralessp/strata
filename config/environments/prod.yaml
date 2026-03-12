@@ -4,9 +4,6 @@ compute:
     master: local[*]
 
 storage:
-  bronze: s3a://strata-data/bronze
-  silver: s3a://strata-data/silver
-  gold: s3a://strata-data/gold
-
-
-
+  bronze: s3a://uev-strata-tmbsg-2026/bronze
+  silver: s3a://uev-strata-tmbsg-2026/silver
+  gold: s3a://uev-strata-tmbsg-2026/gold
