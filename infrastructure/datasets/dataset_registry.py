@@ -15,15 +15,17 @@ class DatasetRegistry:
         return self._datasets[name]
 
     def uri(self, name: str) -> str:
-        dataset_layer = self.get(name).layer
+        dataset = self.get(name)
+        dataset_layer = dataset.layer
 
         if dataset_layer not in self._storage:
             raise ValueError("Dataset layer not defined in the storage configuration.")
 
         base = self._storage[dataset_layer]
-        version = self.get(name).version
-        path = f"{base}/{name}/{version}"
-        return path
+        path = dataset.path
+        version = dataset.version
+
+        return f"{base}/{path}/{version}"
 
     def partitions(self, name: str) -> list[str]:
         dataset = self.get(name)
