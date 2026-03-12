@@ -2,6 +2,9 @@ environment: prod
 
 pipeline:
   write_mode: overwrite
+  
+  ingestion:
+    start_date: 2005-01-01
 
 universe:
   etfs: reference/universe/etf_universe.csv

@@ -1,3 +1,4 @@
+from datetime import date
 from pydantic import BaseModel, ConfigDict
 from typing import List, Dict, Optional
 
@@ -42,14 +43,23 @@ class SparkConfig(BaseModel):
 
 
 class ComputeConfig(BaseModel):
+    model_config = ConfigDict(frozen=True)
     engine: str
     spark: Optional[SparkConfig] = None
+
+
+class IngestionConfig(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    start_date: date
 
 
 class PipelineConfig(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     write_mode: str
+
+    ingestion: IngestionConfig
 
 
 class ConfigModel(BaseModel):
