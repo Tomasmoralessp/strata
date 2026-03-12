@@ -25,15 +25,10 @@ from core.config.models import (
 
 from infrastructure.datasets.dataset_registry import DatasetRegistry
 from infrastructure.storage.storage import DataStorage
+from application.application_context import ApplicationContext
 
 
 class ApplicationBootstrap:
-    def __init__(self):
-        self.config: ConfigModel | None = None
-        self.spark: SparkSession | None = None
-        self.dataset_registry: DatasetRegistry | None = None
-        self.storage: DataStorage | None = None
-
     def _load_config_to_dict(self) -> dict:
         logger.info("[BOOTSTRAP] Loading configuration...")
         # 1. Read the base yaml
@@ -171,22 +166,18 @@ class ApplicationBootstrap:
 
         return config
 
-    def _build_dataset_registry(self) -> DatasetRegistry:
+    def _build_dataset_registry(self, config: ConfigModel) -> DatasetRegistry:
         logger.info("[BOOTSTRAP] Initializing dataset registry")
-        if self.config is None:
-            raise RuntimeError("Config must be built before DatasetRegistry")
 
-        dataset_registry = DatasetRegistry(self.config.datasets, self.config.storage)
-        logger.debug("[BOOTSTRAP] Datasets registered: {}", len(self.config.datasets))
+        dataset_registry = DatasetRegistry(config.datasets, config.storage)
+        logger.debug("[BOOTSTRAP] Datasets registered: {}", len(config.datasets))
         return dataset_registry
 
-    def _build_spark(self) -> SparkSession:
+    def _build_spark(self, config: ConfigModel) -> SparkSession:
         logger.info("[BOOTSTRAP] Starting spark bootstrap")
-        if self.config is None:
-            raise RuntimeError("Config must be built before Spark.")
-        if self.config.compute.engine == "spark":
+        if config.compute.engine == "spark":
             builder = SparkSession.builder
-            spark_config = self.config.compute.spark
+            spark_config = config.compute.spark
             if spark_config:
                 app_name = spark_config.app_name
                 master = spark_config.master
@@ -203,23 +194,27 @@ class ApplicationBootstrap:
         else:
             raise ValueError("Compute engine is not spark")
 
-    def _build_storage(self) -> DataStorage:
+    def _build_storage(
+        self, spark: SparkSession, dataset_registry: DatasetRegistry
+    ) -> DataStorage:
         logger.info("[BOOTSTRAP] Initializing storage layer")
-        if self.spark is None:
-            raise RuntimeError("Spark must be built before storage")
-
-        if self.dataset_registry is None:
-            raise RuntimeError("DatasetRegistry must be built before storage")
-        data_storage = DataStorage(self.spark, self.dataset_registry)
+        data_storage = DataStorage(spark, dataset_registry)
         return data_storage
 
-    def build(self):
+    def build(self) -> ApplicationContext:
         logger.info("[BOOTSTRAP] Starting application bootstrap")
-        self.config = self._build_config()
-        self.spark = self._build_spark()
-        self.dataset_registry = self._build_dataset_registry()
-        self.storage = self._build_storage()
+        config = self._build_config()
+        spark = self._build_spark(config)
+        dataset_registry = self._build_dataset_registry(config)
+        storage = self._build_storage(spark, dataset_registry)
 
         logger.info("[BOOTSTRAP] Bootstrap completed successfully")
 
-        return self
+        application_context = ApplicationContext(
+            config=config,
+            spark=spark,
+            dataset_registry=dataset_registry,
+            storage=storage,
+        )
+
+        return application_context
