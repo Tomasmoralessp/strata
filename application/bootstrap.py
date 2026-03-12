@@ -22,6 +22,8 @@ from core.config.models import (
     PortfolioConfig,
     UniverseConfig,
 )
+from pipeline.pipeline import Pipeline
+from pipeline.stages.ingestion_stage import IngestionStage
 
 from infrastructure.datasets.dataset_registry import DatasetRegistry
 from infrastructure.storage.storage import DataStorage
@@ -184,11 +186,21 @@ class ApplicationBootstrap:
 
                 if app_name:
                     logger.debug("[BOOTSTRAP] Spark app name: {}", app_name)
-                    builder.appName(app_name)
+                    builder = builder.appName(app_name)
 
                 if master:
                     logger.debug("[BOOTSTRAP] Spark master: {}", master)
-                    builder.master(master)
+                    builder = builder.master(master)
+
+                if config.environment == "prod":
+                    builder = builder.config(
+                        "spark.hadoop.fs.s3a.aws.credentials.provider",
+                        "com.amazonaws.auth.DefaultAWSCredentialsProviderChain",
+                    )
+                    builder = builder.config(
+                        "spark.jars.packages", "org.apache.hadoop:hadoop-aws:3.3.4"
+                    )
+
             spark = builder.getOrCreate()
             return spark
         else:
@@ -201,7 +213,7 @@ class ApplicationBootstrap:
         data_storage = DataStorage(spark, dataset_registry)
         return data_storage
 
-    def build(self) -> ApplicationContext:
+    def build_context(self) -> ApplicationContext:
         logger.info("[BOOTSTRAP] Starting application bootstrap")
         config = self._build_config()
         spark = self._build_spark(config)
@@ -218,3 +230,13 @@ class ApplicationBootstrap:
         )
 
         return application_context
+
+    def build_pipeline(self, context: ApplicationContext):
+        pipeline = Pipeline(context)
+
+        pipeline_config = context.config.pipeline
+
+        if pipeline_config.ingestion:
+            pipeline.add_stage(IngestionStage())
+
+        return pipeline
