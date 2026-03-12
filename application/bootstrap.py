@@ -17,6 +17,7 @@ from core.config.models import (
     ConfigModel,
     DatasetConfig,
     MetricConfig,
+    IngestionConfig,
     PipelineConfig,
     PortfolioConfig,
     UniverseConfig,
@@ -105,7 +106,10 @@ class ApplicationBootstrap:
 
         # 2. Create pipeline config
         pipeline_config = PipelineConfig(
-            write_mode=config_dict["pipeline"]["write_mode"]
+            write_mode=config_dict["pipeline"]["write_mode"],
+            ingestion=IngestionConfig(
+                start_date=config_dict["pipeline"]["ingestion"]["start_date"]
+            ),
         )
 
         # 3. Create dataset configs
@@ -219,10 +223,3 @@ class ApplicationBootstrap:
         logger.info("[BOOTSTRAP] Bootstrap completed successfully")
 
         return self
-
-
-if __name__ == "__main__":
-    application = ApplicationBootstrap().build()
-    config = application.config
-
-    print(config)
