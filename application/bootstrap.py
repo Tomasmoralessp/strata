@@ -197,9 +197,25 @@ class ApplicationBootstrap:
                         "spark.hadoop.fs.s3a.aws.credentials.provider",
                         "com.amazonaws.auth.DefaultAWSCredentialsProviderChain",
                     )
+                    builder = builder.config("spark.driver.memory", "4g")
+                    builder = builder.config(
+                        "spark.hadoop.fs.s3a.fast.upload.buffer", "disk"
+                    )
+                    builder = builder.config("spark.hadoop.fs.s3a.fast.upload", "true")
                     builder = builder.config(
                         "spark.jars.packages", "org.apache.hadoop:hadoop-aws:3.3.4"
                     )
+
+                    builder = builder.config(
+                        "spark.hadoop.fs.s3a.multipart.size", "128M"
+                    )
+                    builder = builder.config(
+                        "spark.hadoop.fs.s3a.multipart.threshold", "128M"
+                    )
+                    builder = builder.config(
+                        "spark.hadoop.fs.s3a.connection.maximum", "100"
+                    )
+                    builder = builder.config("spark.hadoop.fs.s3a.threads.max", "100")
 
             spark = builder.getOrCreate()
             return spark
