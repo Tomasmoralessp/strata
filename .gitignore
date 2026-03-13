@@ -1,5 +1,9 @@
-# data
-data/
+# ignore data lake contents
+data/bronze/*
+data/silver/*
+data/gold/*
+
+
 
 # python
 __pycache__/
