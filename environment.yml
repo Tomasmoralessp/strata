@@ -1,15 +1,20 @@
 name: strata-env
+
 channels:
   - conda-forge
+
 dependencies:
-  - python = 3.11
-  - pyspark
-  - numpy
-  - pandas
-  - matplotlib
+  - python=3.11
+  - pip
+  - openjdk=17
   - yfinance
-  - pyyaml
   - pydantic
-  - typer
-  - streamlit
+  - pandas
+  - numpy
+  - pyarrow
+  - pyyaml
+  - requests
+  - boto3
+  - awscli
   - loguru
+  - pyspark=3.5.1
