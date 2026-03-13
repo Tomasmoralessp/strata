@@ -1,5 +1,16 @@
-# data
-data/
+# data lake layers
+data/*
+bronze/*
+silver/*
+gold/*
+
+# keep folders themselves
+!data/
+!bronze/
+!silver/
+!gold/
+
+
 
 # python
 __pycache__/
