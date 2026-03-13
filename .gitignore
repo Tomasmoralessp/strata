@@ -1,15 +1,12 @@
-# data lake layers
-data/*
-bronze/*
-silver/*
-gold/*
+# ignore data lake contents
+data/bronze/*
+data/silver/*
+data/gold/*
 
-# keep folders themselves
-!data/
-!bronze/
-!silver/
-!gold/
-
+# keep folders
+!data/bronze/
+!data/silver/
+!data/gold/
 
 
 # python
