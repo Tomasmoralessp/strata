@@ -1,8 +1,8 @@
-environment: prod
+environment: dev
 
 pipeline:
   write_mode: overwrite
-  
+
   ingestion:
     start_date: 2005-01-01
 
