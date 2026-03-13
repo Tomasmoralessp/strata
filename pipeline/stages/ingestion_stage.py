@@ -5,6 +5,7 @@ from pipeline.stages.pipeline_stage import PipelineStage
 
 import pandas as pd
 import yfinance as yf
+import time
 
 from core.utils.batching import chunk_list
 from schemas.bronze_prices import BRONZE_PRICES_SCHEMA
@@ -21,11 +22,14 @@ class IngestionStage(PipelineStage):
         return tickers
 
     def fetch_data(self, start_date: date, tickers: list) -> pd.DataFrame:
-        batch_size = 50
+        batch_size = 5
         batches = []
+        sleep = 2
 
         for batch in chunk_list(tickers, batch_size):
-            df = yf.download(tickers, start=start_date, auto_adjust=True, progress=True)
+            df = yf.download(
+                batch, start=start_date, auto_adjust=True, progress=True, threads=False
+            )
 
             if df is None or df.empty:
                 raise RuntimeError(f"No data downloaded for batch: {batch}")
@@ -35,7 +39,9 @@ class IngestionStage(PipelineStage):
 
             batches.append(df)
 
-        pdf = pd.concat(batches)
+            time.sleep(sleep)
+
+        pdf = pd.concat(batches, copy=False)
 
         if pdf is None or pdf.empty:
             raise RuntimeError("No data downloaded from Yahoo finance")
@@ -47,6 +53,8 @@ class IngestionStage(PipelineStage):
 
         pdf.columns.name = None
         pdf.columns = pdf.columns.str.lower()
+
+        pdf["date"] = pd.to_datetime(pdf["date"]).dt.date
 
         return pdf
 
@@ -60,7 +68,10 @@ class IngestionStage(PipelineStage):
         pdf = self.fetch_data(config.pipeline.ingestion.start_date, tickers)
 
         pdf = self.normalize_df(pdf)
+        tmp_path = "/tmp/bronze_prices.parquet"
 
-        sdf = spark.createDataFrame(pdf, schema=BRONZE_PRICES_SCHEMA)
+        pdf.to_parquet(tmp_path, index=False)
+        sdf = spark.read.schema(BRONZE_PRICES_SCHEMA).parquet(tmp_path)
+        sdf = sdf.repartition(4)
 
         storage.write(sdf, "bronze_prices")
