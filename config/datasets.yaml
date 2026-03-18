@@ -1,8 +1,16 @@
 datasets:
 
-  bronze_prices:
+  raw_etf_prices: 
 
     description: Raw ETF price data downloaded from the provider
+
+    layer: raw
+    path: etf_prices
+    format: csv
+
+  bronze_prices:
+
+    description: ETF price data in parquet format, partitioned by date
 
     layer: bronze
     path: etf_prices
