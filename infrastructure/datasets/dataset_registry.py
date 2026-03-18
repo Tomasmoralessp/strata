@@ -14,6 +14,20 @@ class DatasetRegistry:
             raise ValueError("Dataset is not defined in the configuration.")
         return self._datasets[name]
 
+    def get_layer(self, dataset_name: str) -> str:
+        return self.get(dataset_name).layer
+
+    def get_format(self, dataset_name: str) -> str:
+        return self.get(dataset_name).format
+
+    def build_path(self, base: str, dataset: DatasetConfig) -> str:
+        parts = [base, dataset.layer, dataset.path]
+
+        if dataset.version:
+            parts.append(dataset.version)
+
+        return "/".join(parts)
+
     def uri(self, name: str) -> str:
         dataset = self.get(name)
         dataset_layer = dataset.layer
@@ -22,10 +36,8 @@ class DatasetRegistry:
             raise ValueError("Dataset layer not defined in the storage configuration.")
 
         base = self._storage[dataset_layer]
-        path = dataset.path
-        version = dataset.version
 
-        return f"{base}/{path}/{version}"
+        return self.build_path(base, dataset)
 
     def partitions(self, name: str) -> list[str]:
         dataset = self.get(name)
