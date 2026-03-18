@@ -20,7 +20,6 @@ from core.config.models import (
     IngestionConfig,
     PipelineConfig,
     PortfolioConfig,
-    UniverseConfig,
 )
 from pipeline.pipeline import Pipeline
 from pipeline.stages.ingestion_stage import IngestionStage
@@ -117,7 +116,7 @@ class ApplicationBootstrap:
                 description=dataset_data.get("description"),
                 layer=dataset_data["layer"],
                 path=dataset_data["path"],
-                version=dataset_data["version"],
+                version=dataset_data.get("version"),
                 format=dataset_data["format"],
                 partition_by=dataset_data.get("partition_by"),
             )
@@ -151,9 +150,6 @@ class ApplicationBootstrap:
 
                 portfolio_configs[portfolio_name] = portfolio_config
 
-        # 6. Create universe config
-        universe_config = UniverseConfig(etfs=config_dict["universe"]["etfs"])
-
         # 7. Create final config object
         config = ConfigModel(
             environment=config_dict["environment"],
@@ -163,7 +159,6 @@ class ApplicationBootstrap:
             datasets=dataset_configs,
             metrics=metric_configs,
             portfolios=portfolio_configs,
-            universe=universe_config,
         )
 
         return config
@@ -197,25 +192,10 @@ class ApplicationBootstrap:
                         "spark.hadoop.fs.s3a.aws.credentials.provider",
                         "com.amazonaws.auth.DefaultAWSCredentialsProviderChain",
                     )
-                    builder = builder.config("spark.driver.memory", "4g")
-                    builder = builder.config(
-                        "spark.hadoop.fs.s3a.fast.upload.buffer", "disk"
-                    )
-                    builder = builder.config("spark.hadoop.fs.s3a.fast.upload", "true")
+
                     builder = builder.config(
                         "spark.jars.packages", "org.apache.hadoop:hadoop-aws:3.3.4"
                     )
-
-                    builder = builder.config(
-                        "spark.hadoop.fs.s3a.multipart.size", "128M"
-                    )
-                    builder = builder.config(
-                        "spark.hadoop.fs.s3a.multipart.threshold", "128M"
-                    )
-                    builder = builder.config(
-                        "spark.hadoop.fs.s3a.connection.maximum", "100"
-                    )
-                    builder = builder.config("spark.hadoop.fs.s3a.threads.max", "100")
 
             spark = builder.getOrCreate()
             return spark
