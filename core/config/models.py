@@ -1,5 +1,5 @@
 from datetime import date
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, model_validator
 from typing import List, Dict, Optional
 
 
@@ -9,15 +9,15 @@ class DatasetConfig(BaseModel):
     description: Optional[str] = None
     layer: str
     path: str
-    version: str
+    version: Optional[str] = None
     format: str
     partition_by: Optional[List[str]] = None
 
-
-class UniverseConfig(BaseModel):
-    model_config = ConfigDict(frozen=True)
-
-    etfs: str
+    @model_validator(mode="after")
+    def validate_version(self):
+        if self.layer in {"bronze", "silver", "gold"} and not self.version:
+            raise ValueError("Version is required for non-raw layers")
+        return self
 
 
 class MetricConfig(BaseModel):
@@ -74,5 +74,3 @@ class ConfigModel(BaseModel):
 
     metrics: List[MetricConfig]
     portfolios: Dict[str, PortfolioConfig] = {}
-
-    universe: UniverseConfig
