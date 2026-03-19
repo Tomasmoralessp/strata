@@ -188,6 +188,7 @@ class ApplicationBootstrap:
                     builder = builder.master(master)
 
                 if config.environment == "prod":
+                    builder = builder.config("spark.driver.memory", "4g")
                     builder = builder.config(
                         "spark.hadoop.fs.s3a.aws.credentials.provider",
                         "com.amazonaws.auth.DefaultAWSCredentialsProviderChain",
