@@ -21,7 +21,7 @@ class DatasetRegistry:
         return self.get(dataset_name).format
 
     def build_path(self, base: str, dataset: DatasetConfig) -> str:
-        parts = [base, dataset.layer, dataset.path]
+        parts = [base, dataset.path]
 
         if dataset.version:
             parts.append(dataset.version)
@@ -49,3 +49,6 @@ class DatasetRegistry:
             for name, dataset_config in self._datasets.items()
             if dataset_config.layer == layer
         ]
+
+
+
